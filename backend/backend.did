@@ -1,0 +1,16 @@
+type Meeting = 
+ record {
+   date: text;
+   location: text;
+   participants: vec text;
+   time: text;
+   title: text;
+ };
+service : {
+  addMeeting: (text, Meeting) -> ();
+  getAllMeetings: () -> (vec record {
+                               text;
+                               vec Meeting;
+                             }) query;
+  getMeetings: (text) -> (opt vec Meeting) query;
+}

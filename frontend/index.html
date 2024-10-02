@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar App</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <main>
+        <h1>Calendar App</h1>
+        <div id="calendar-container">
+            <div id="calendar-header">
+                <button id="prev-month">&lt;</button>
+                <h2 id="current-month"></h2>
+                <button id="next-month">&gt;</button>
+            </div>
+            <div id="calendar-grid"></div>
+        </div>
+        <div id="meetings-list" style="display: none;"></div>
+        <button id="toggle-view">Toggle View</button>
+    </main>
+    <script type="module" src="index.js"></script>
+</body>
+</html>
