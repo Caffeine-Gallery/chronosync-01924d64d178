@@ -13,4 +13,5 @@ service : {
                                vec Meeting;
                              }) query;
   getMeetings: (text) -> (opt vec Meeting) query;
+  initializeSampleData: () -> ();
 }

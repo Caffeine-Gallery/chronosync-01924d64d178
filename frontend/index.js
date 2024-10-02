@@ -3,7 +3,7 @@ import { backend } from "declarations/backend";
 const calendarGrid = document.getElementById("calendar-grid");
 const currentMonthElement = document.getElementById("current-month");
 const toggleViewButton = document.getElementById("toggle-view");
-const calendarView = document.getElementById("calendar-view");
+const calendarContainer = document.getElementById("calendar-container");
 const meetingsView = document.getElementById("meetings-view");
 const meetingsList = document.getElementById("meetings-list");
 const weekdaysContainer = document.getElementById("weekdays");
@@ -97,7 +97,7 @@ function showMeetingsForDay(date) {
   `).join("");
 
   meetingsList.innerHTML = `<h2 class="text-2xl font-bold text-white p-3">Meetings for ${date}</h2>${meetingsHTML}`;
-  calendarView.style.display = "none";
+  calendarContainer.style.display = "none";
   meetingsView.style.display = "block";
 }
 
@@ -123,13 +123,13 @@ function showAllMeetings() {
   `).join("");
 
   meetingsList.innerHTML = allMeetingsHTML;
-  calendarView.style.display = "none";
+  calendarContainer.style.display = "none";
   meetingsView.style.display = "block";
 }
 
 toggleViewButton.addEventListener("click", () => {
-  if (calendarView.style.display === "none") {
-    calendarView.style.display = "block";
+  if (calendarContainer.style.display === "none") {
+    calendarContainer.style.display = "block";
     meetingsView.style.display = "none";
     document.getElementById("toggle-slider").style.transform = "translateY(-50%) translateX(4px)";
   } else {

@@ -18,6 +18,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Opt(IDL.Vec(Meeting))],
         ['query'],
       ),
+    'initializeSampleData' : IDL.Func([], [], []),
   });
 };
 export const init = ({ IDL }) => { return []; };

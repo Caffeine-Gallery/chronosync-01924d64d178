@@ -69,6 +69,11 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  transition: all 0.3s ease;
+}
+
+.calendar-day:hover {
+  transform: scale(1.05);
 }
 
 .meeting-count {
@@ -97,6 +102,20 @@ body {
 
 .meeting:hover {
   background-color: #2a2a2a;
+}
+
+#meetings-view, #calendar-container {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#meetings-view {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+#meetings-view.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (min-width: 768px) {
