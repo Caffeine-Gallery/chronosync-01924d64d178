@@ -7,6 +7,7 @@ const calendarContainer = document.getElementById("calendar-container");
 const meetingsView = document.getElementById("meetings-view");
 const meetingsList = document.getElementById("meetings-list");
 const weekdaysContainer = document.getElementById("weekdays");
+const errorMessageElement = document.getElementById("error-message");
 
 let currentDate = new Date();
 let meetings = {};
@@ -15,6 +16,7 @@ const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
 async function fetchMeetings() {
   try {
+    console.log("Fetching meetings...");
     const allMeetings = await backend.getAllMeetings();
     console.log("Raw meetings data:", allMeetings);
     meetings = Object.fromEntries(allMeetings);
@@ -29,16 +31,26 @@ async function fetchMeetings() {
     }
   } catch (error) {
     console.error("Error fetching meetings:", error);
+    throw error;
   }
 }
 
 function renderWeekdays() {
+  if (!weekdaysContainer) {
+    console.error("Weekdays container not found");
+    return;
+  }
   weekdaysContainer.innerHTML = daysOfWeek.map(day => 
     `<div class="weekday-button text-xs text-white text-center bg-[#323232] py-1 px-0.5 rounded-xl">${day}</div>`
   ).join('');
 }
 
 function renderCalendar() {
+  if (!calendarGrid || !currentMonthElement) {
+    console.error("Calendar elements not found");
+    return;
+  }
+
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -92,6 +104,11 @@ function renderCalendar() {
 }
 
 function showMeetingsForDay(date) {
+  if (!meetingsList) {
+    console.error("Meetings list element not found");
+    return;
+  }
+
   const dayMeetings = meetings[date] || [];
   console.log("Meetings for", date, ":", dayMeetings);
   const meetingsHTML = dayMeetings.map(meeting => `
@@ -115,6 +132,11 @@ function showMeetingsForDay(date) {
 }
 
 function showAllMeetings() {
+  if (!meetingsList) {
+    console.error("Meetings list element not found");
+    return;
+  }
+
   const allMeetingsHTML = Object.entries(meetings).map(([date, dayMeetings]) => `
     <h2 class="text-2xl font-bold text-white p-3">${date}</h2>
     ${dayMeetings.map(meeting => `
@@ -138,27 +160,32 @@ function showAllMeetings() {
   meetingsView.style.display = "block";
 }
 
-toggleViewButton.addEventListener("click", () => {
-  if (calendarContainer.style.display === "none") {
-    calendarContainer.style.display = "block";
-    meetingsView.style.display = "none";
-    document.getElementById("toggle-slider").style.transform = "translateY(-50%) translateX(4px)";
-  } else {
-    showAllMeetings();
-    document.getElementById("toggle-slider").style.transform = "translateY(-50%) translateX(40px)";
-  }
-});
+if (toggleViewButton) {
+  toggleViewButton.addEventListener("click", () => {
+    if (calendarContainer.style.display === "none") {
+      calendarContainer.style.display = "block";
+      meetingsView.style.display = "none";
+      document.getElementById("toggle-slider").style.transform = "translateY(-50%) translateX(4px)";
+    } else {
+      showAllMeetings();
+      document.getElementById("toggle-slider").style.transform = "translateY(-50%) translateX(40px)";
+    }
+  });
+}
 
 async function init() {
   try {
-    document.body.innerHTML += '<div id="loading" class="loading">Loading...</div>';
+    console.log("Initializing application...");
     await fetchMeetings();
-    document.getElementById("loading").remove();
     renderWeekdays();
     renderCalendar();
+    console.log("Application initialized successfully");
   } catch (error) {
     console.error("Error initializing application:", error);
-    document.body.innerHTML = `<div class="error-message">An error occurred while loading the application. Please try again later.</div>`;
+    if (errorMessageElement) {
+      errorMessageElement.textContent = "An error occurred while loading the application. Please try again later.";
+      errorMessageElement.style.display = "block";
+    }
   }
 }
 
