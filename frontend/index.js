@@ -14,8 +14,13 @@ let meetings = {};
 const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
 async function fetchMeetings() {
-  const allMeetings = await backend.getAllMeetings();
-  meetings = Object.fromEntries(allMeetings);
+  try {
+    const allMeetings = await backend.getAllMeetings();
+    meetings = Object.fromEntries(allMeetings);
+    console.log("Fetched meetings:", meetings);
+  } catch (error) {
+    console.error("Error fetching meetings:", error);
+  }
 }
 
 function renderWeekdays() {
@@ -56,7 +61,7 @@ function renderCalendar() {
     dayContent.classList.add("flex", "flex-col", "items-center", "justify-center", "h-full");
     dayContent.innerHTML = `<span class="text-sm text-white">${day}</span>`;
 
-    if (dayMeetings) {
+    if (dayMeetings && dayMeetings.length > 0) {
       dayElement.classList.add("cursor-pointer");
       const meetingCount = document.createElement("div");
       meetingCount.classList.add("meeting-count", "absolute", "bottom-1", "right-1", "size-5", "rounded-full", "bg-zinc-700", "text-white", "text-[10px]", "font-bold", "flex", "items-center", "justify-center");
@@ -79,6 +84,7 @@ function renderCalendar() {
 
 function showMeetingsForDay(date) {
   const dayMeetings = meetings[date] || [];
+  console.log("Meetings for", date, ":", dayMeetings);
   const meetingsHTML = dayMeetings.map(meeting => `
     <div class="meeting p-3 border-b last:border-b-0 border-[#323232]">
       <div class="flex justify-between items-center mb-2">
