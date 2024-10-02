@@ -20,7 +20,7 @@ async function fetchMeetings() {
 
 function renderWeekdays() {
   weekdaysContainer.innerHTML = daysOfWeek.map(day => 
-    `<div class="text-xs text-white text-center bg-[#323232] py-1 px-0.5 rounded-xl">${day}</div>`
+    `<div class="weekday-button text-xs text-white text-center bg-[#323232] py-1 px-0.5 rounded-xl">${day}</div>`
   ).join('');
 }
 
@@ -28,7 +28,7 @@ function renderCalendar() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  currentMonthElement.innerHTML = `${new Date(year, month).toLocaleString('default', { month: 'long' })} <span class="opacity-50">${year}</span>`;
+  currentMonthElement.innerHTML = `LN <span class="opacity-50">${year}</span>`;
 
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
@@ -88,9 +88,7 @@ function showMeetingsForDay(date) {
       <h3 class="font-semibold text-lg mb-1 text-white">${meeting.title}</h3>
       <p class="text-sm text-zinc-600 mb-1">${meeting.participants.join(", ")}</p>
       <div class="flex items-center text-blue-500">
-        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-        </svg>
+        <i class="fas fa-video mr-1"></i>
         <span class="text-sm">${meeting.location}</span>
       </div>
     </div>
@@ -113,9 +111,7 @@ function showAllMeetings() {
         <h3 class="font-semibold text-lg mb-1 text-white">${meeting.title}</h3>
         <p class="text-sm text-zinc-600 mb-1">${meeting.participants.join(", ")}</p>
         <div class="flex items-center text-blue-500">
-          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-          </svg>
+          <i class="fas fa-video mr-1"></i>
           <span class="text-sm">${meeting.location}</span>
         </div>
       </div>

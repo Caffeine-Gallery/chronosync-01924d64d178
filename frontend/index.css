@@ -118,6 +118,16 @@ body {
   transform: translateY(0);
 }
 
+.weekday-button {
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.weekday-button:hover {
+  background-color: #4a4a4a;
+  transform: scale(1.05);
+}
+
 @media (min-width: 768px) {
   .md\:justify-center { justify-content: center; }
 }

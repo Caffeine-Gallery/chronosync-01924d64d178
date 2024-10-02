@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendar App</title>
     <link rel="stylesheet" href="index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <main class="w-full min-h-screen flex flex-col items-center justify-start md:justify-center px-4 py-10 bg-black">
@@ -14,8 +15,8 @@
                     <div class="w-full flex items-center justify-between">
                         <h2 id="current-month" class="text-4xl mb-2 font-bold tracking-wider text-zinc-300"></h2>
                         <button id="toggle-view" class="flex items-center text-[#323232] relative border rounded-lg py-1 px-1.5 border-[#323232] gap-3">
-                            <span class="columns-icon z-[2]">&#9776;</span>
-                            <span class="grid-icon z-[2]">&#9638;</span>
+                            <i class="fas fa-columns z-[2]"></i>
+                            <i class="fas fa-th z-[2]"></i>
                             <div id="toggle-slider" class="absolute top-0 left-0 w-7 h-[85%] bg-white rounded-md duration-300 transition-transform"></div>
                         </button>
                     </div>
