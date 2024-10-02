@@ -7,18 +7,35 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <main>
-        <h1>Calendar App</h1>
-        <div id="calendar-container">
-            <div id="calendar-header">
-                <button id="prev-month">&lt;</button>
-                <h2 id="current-month"></h2>
-                <button id="next-month">&gt;</button>
+    <main class="w-full min-h-screen flex flex-col items-center justify-start md:justify-center px-4 py-10 bg-black">
+        <div class="relative mx-auto my-10 w-full flex-col lg:flex-row justify-center flex items-center gap-8">
+            <div class="w-full max-w-lg">
+                <div id="calendar-view" class="w-full flex-col flex gap-4">
+                    <div class="w-full flex items-center justify-between">
+                        <h2 id="current-month" class="text-4xl mb-2 font-bold tracking-wider text-zinc-300"></h2>
+                        <button id="toggle-view" class="flex items-center text-[#323232] relative border rounded-lg py-1 px-1.5 border-[#323232] gap-3">
+                            <span class="columns-icon z-[2]">&#9776;</span>
+                            <span class="grid-icon z-[2]">&#9638;</span>
+                            <div id="toggle-slider" class="absolute top-0 left-0 w-7 h-[85%] bg-white rounded-md duration-300 transition-transform"></div>
+                        </button>
+                    </div>
+                    <div id="weekdays" class="grid grid-cols-7 gap-2"></div>
+                    <div id="calendar-grid" class="grid grid-cols-7 gap-2"></div>
+                </div>
             </div>
-            <div id="calendar-grid"></div>
+            <div id="meetings-view" class="w-full max-w-lg" style="display: none;">
+                <div class="w-full flex-col flex gap-4 mt-4">
+                    <div class="w-full flex flex-col items-start justify-between">
+                        <h2 class="text-4xl mb-2 font-bold tracking-wider text-zinc-300">Bookings</h2>
+                        <p class="font-medium text-zinc-300/50">
+                            See upcoming and past events booked through your event type links.
+                        </p>
+                    </div>
+                    <div id="meetings-list" class="border-2 border-[#323232] flex flex-col items-start justify-start overflow-hidden rounded-xl shadow-md h-[620px] overflow-y-scroll">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="meetings-list" style="display: none;"></div>
-        <button id="toggle-view">Toggle View</button>
     </main>
     <script type="module" src="index.js"></script>
 </body>
