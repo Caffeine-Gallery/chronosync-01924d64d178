@@ -133,6 +133,13 @@ body {
   transform: scale(1.05);
 }
 
+.error-message {
+  color: #ff6b6b;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 2rem;
+}
+
 @media (min-width: 768px) {
   .md\:justify-center { justify-content: center; }
 }

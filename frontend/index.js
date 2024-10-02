@@ -18,6 +18,14 @@ async function fetchMeetings() {
     const allMeetings = await backend.getAllMeetings();
     meetings = Object.fromEntries(allMeetings);
     console.log("Fetched meetings:", meetings);
+
+    if (Object.keys(meetings).length === 0) {
+      console.log("No meetings found. Initializing sample data...");
+      await backend.initializeSampleData();
+      const updatedMeetings = await backend.getAllMeetings();
+      meetings = Object.fromEntries(updatedMeetings);
+      console.log("Sample data initialized. Updated meetings:", meetings);
+    }
   } catch (error) {
     console.error("Error fetching meetings:", error);
   }
@@ -141,9 +149,15 @@ toggleViewButton.addEventListener("click", () => {
 });
 
 async function init() {
-  await fetchMeetings();
-  renderWeekdays();
-  renderCalendar();
+  try {
+    await fetchMeetings();
+    renderWeekdays();
+    renderCalendar();
+  } catch (error) {
+    console.error("Error initializing application:", error);
+    // Display error message to the user
+    document.body.innerHTML = `<div class="error-message">An error occurred while loading the application. Please try again later.</div>`;
+  }
 }
 
 init();
