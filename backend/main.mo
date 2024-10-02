@@ -1,6 +1,7 @@
 import Hash "mo:base/Hash";
 
 import Array "mo:base/Array";
+import Debug "mo:base/Debug";
 import HashMap "mo:base/HashMap";
 import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
@@ -16,34 +17,49 @@ actor {
   };
 
   stable var meetingsEntries : [(Text, [Meeting])] = [];
-  let meetings = HashMap.fromIter<Text, [Meeting]>(meetingsEntries.vals(), 10, Text.equal, Text.hash);
+  var meetings = HashMap.fromIter<Text, [Meeting]>(meetingsEntries.vals(), 10, Text.equal, Text.hash);
 
   public func addMeeting(date : Text, meeting : Meeting) : async () {
+    Debug.print("Adding meeting for date: " # date);
     let existingMeetings = switch (meetings.get(date)) {
       case (null) { [] };
       case (?m) { m };
     };
     meetings.put(date, Array.append<Meeting>(existingMeetings, [meeting]));
+    Debug.print("Meeting added successfully");
   };
 
   public query func getMeetings(date : Text) : async ?[Meeting] {
-    meetings.get(date)
+    Debug.print("Getting meetings for date: " # date);
+    let result = meetings.get(date);
+    switch (result) {
+      case (null) { Debug.print("No meetings found for date: " # date); };
+      case (?m) { Debug.print("Found " # Nat.toText(m.size()) # " meetings for date: " # date); };
+    };
+    result
   };
 
   public query func getAllMeetings() : async [(Text, [Meeting])] {
-    Iter.toArray(meetings.entries())
+    Debug.print("Getting all meetings");
+    let result = Iter.toArray(meetings.entries());
+    Debug.print("Total dates with meetings: " # Nat.toText(result.size()));
+    result
   };
 
   system func preupgrade() {
     meetingsEntries := Iter.toArray(meetings.entries());
+    Debug.print("Preupgrade: Stored " # Nat.toText(meetingsEntries.size()) # " meeting entries");
   };
 
   system func postupgrade() {
+    Debug.print("Postupgrade: Restoring " # Nat.toText(meetingsEntries.size()) # " meeting entries");
+    meetings := HashMap.fromIter<Text, [Meeting]>(meetingsEntries.vals(), 10, Text.equal, Text.hash);
     meetingsEntries := [];
   };
 
   // Initialize with sample data
   public func initializeSampleData() : async () {
+    Debug.print("Initializing sample data");
     let sampleMeetings : [(Text, [Meeting])] = [
       ("2024-11-02", [
         { date = "Wed, 2 Nov"; time = "10:00 AM - 11:00 AM"; title = "Design Review Meeting"; participants = ["Alice Johnson", "Mark Lee"]; location = "Zoom" },
@@ -83,5 +99,6 @@ actor {
         await addMeeting(date, meeting);
       };
     };
+    Debug.print("Sample data initialized");
   };
 }

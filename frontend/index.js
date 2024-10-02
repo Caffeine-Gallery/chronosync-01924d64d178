@@ -16,8 +16,9 @@ const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 async function fetchMeetings() {
   try {
     const allMeetings = await backend.getAllMeetings();
+    console.log("Raw meetings data:", allMeetings);
     meetings = Object.fromEntries(allMeetings);
-    console.log("Fetched meetings:", meetings);
+    console.log("Processed meetings:", meetings);
 
     if (Object.keys(meetings).length === 0) {
       console.log("No meetings found. Initializing sample data...");
@@ -150,12 +151,13 @@ toggleViewButton.addEventListener("click", () => {
 
 async function init() {
   try {
+    document.body.innerHTML += '<div id="loading" class="loading">Loading...</div>';
     await fetchMeetings();
+    document.getElementById("loading").remove();
     renderWeekdays();
     renderCalendar();
   } catch (error) {
     console.error("Error initializing application:", error);
-    // Display error message to the user
     document.body.innerHTML = `<div class="error-message">An error occurred while loading the application. Please try again later.</div>`;
   }
 }
